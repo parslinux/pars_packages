@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-#   makepkg - make packages compatible for use with pacman
+#   makepkg - make packages compatible for use with pars
 #
-#   Copyright (c) 2006-2025 Pacman Development Team <pacman-dev@lists.archlinux.org>
+#   Copyright (c) 2006-2025 Pars Development Team <pars-dev@lists.archlinux.org>
 #   Copyright (c) 2002-2006 by Judd Vinet <jvinet@zeroflux.org>
 #   Copyright (c) 2005 by Aurelien Foret <orelien@chez.com>
 #   Copyright (c) 2006 by Miklos Vajna <vmiklos@frugalware.org>
@@ -30,7 +30,7 @@
 #   gettext, gpg, grep, gzip, sed, tput (ncurses), xz
 
 # gettext initialization
-export TEXTDOMAIN='pacman-scripts'
+export TEXTDOMAIN='pars-scripts'
 export TEXTDOMAINDIR='@localedir@'
 
 # file -i does not work on Mac OSX unless legacy mode is set
@@ -243,10 +243,10 @@ run_pacman() {
 		else
 			cmd=(su root -c "$cmdescape")
 		fi
-		local lockfile="$(pacman-conf DBPath)/db.lck"
+		local lockfile="$(pars-conf DBPath)/db.lck"
 		while [[ -f $lockfile ]]; do
 			local timer=0
-			msg "$(gettext "Pacman is currently in use, please wait...")"
+			msg "$(gettext "Pars is currently in use, please wait...")"
 			while [[ -f $lockfile ]] && (( timer < 10 )); do
 				(( ++timer ))
 				sleep 3
@@ -267,7 +267,7 @@ check_deps() {
 	if (( ret == 127 )); then #unresolved deps
 		printf "%s\n" "$pmout"
 	elif (( ret )); then
-		error "$(gettext "'%s' returned a fatal error (%i): %s")" "$PACMAN" "$ret" "$pmout"
+		error "$(gettext "'%s' returned a fatal error (%i): %s")" "$PARS" "$ret" "$pmout"
 		return "$ret"
 	fi
 }
@@ -285,11 +285,11 @@ handle_deps() {
 	fi
 
 	if (( DEP_BIN )); then
-		# install missing deps from binary packages (using pacman -S)
+		# install missing deps from binary packages (using pars -S)
 		msg "$(gettext "Installing missing dependencies...")"
 
 		if ! run_pacman -S --asdeps "${deplist[@]}"; then
-			error "$(gettext "'%s' failed to install missing dependencies.")" "$PACMAN"
+			error "$(gettext "'%s' failed to install missing dependencies.")" "$PARS"
 			return $R_DEPS_MISSING
 		fi
 	fi
@@ -755,9 +755,9 @@ install_package() {
 	RMDEPS=0
 
 	if (( ! SPLITPKG )); then
-		msg "$(gettext "Installing package %s with %s...")" "$pkgname" "$PACMAN -U"
+		msg "$(gettext "Installing package %s with %s...")" "$pkgname" "$PARS -U"
 	else
-		msg "$(gettext "Installing %s package group with %s...")" "$pkgbase" "$PACMAN -U"
+		msg "$(gettext "Installing %s package group with %s...")" "$pkgbase" "$PARS -U"
 	fi
 
 	local fullver pkgarch pkg pkglist
@@ -882,9 +882,9 @@ run_split_packaging() {
 }
 
 usage() {
-	printf "makepkg (pacman) %s\n" "$makepkg_version"
+	printf "makepkg (pars) %s\n" "$makepkg_version"
 	echo
-	printf -- "$(gettext "Make packages compatible for use with pacman")\n"
+	printf -- "$(gettext "Make packages compatible for use with pars")\n"
 	echo
 	printf -- "$(gettext "Usage: %s [options]")\n" "$0"
 	echo
@@ -905,7 +905,7 @@ usage() {
 	printf -- "$(gettext "  -p <file>        Use an alternate build script (instead of '%s')")\n" "$BUILDSCRIPT"
 	printf -- "$(gettext "  -r, --rmdeps     Remove installed dependencies after a successful build")\n"
 	printf -- "$(gettext "  -R, --repackage  Repackage contents of the package without rebuilding")\n"
-	printf -- "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pacman"
+	printf -- "$(gettext "  -s, --syncdeps   Install missing dependencies with %s")\n" "pars"
 	printf -- "$(gettext "  -S, --source     Generate a source-only tarball without downloaded sources")\n"
 	printf -- "$(gettext "  -V, --version    Show version information and exit")\n"
 	printf -- "$(gettext "  --allsource      Generate a source-only tarball including downloaded sources")\n"
@@ -925,7 +925,7 @@ usage() {
 	printf -- "$(gettext "  --skippgpcheck   Do not verify source files with PGP signatures")\n"
 	printf -- "$(gettext "  --verifysource   Download source files (if needed) and perform integrity checks")\n"
 	echo
-	printf -- "$(gettext "These options can be passed to %s:")\n" "pacman"
+	printf -- "$(gettext "These options can be passed to %s:")\n" "pars"
 	echo
 	printf -- "$(gettext "  --asdeps         Install packages as non-explicitly installed")\n"
 	printf -- "$(gettext "  --needed         Do not reinstall the targets that are already up to date")\n"
@@ -937,8 +937,8 @@ usage() {
 }
 
 version() {
-	printf "makepkg (pacman) %s\n" "$makepkg_version"
-	printf -- "Copyright (c) 2006-2025 Pacman Development Team <pacman-dev@lists.archlinux.org>.\n"
+	printf "makepkg (pars) %s\n" "$makepkg_version"
+	printf -- "Copyright (c) 2006-2025 Pars Development Team <pars-dev@lists.archlinux.org>.\n"
 	printf -- "Copyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\n"
 	printf '\n'
 	printf -- "$(gettext "\
@@ -968,7 +968,7 @@ OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'dir:' 'force' 'gen
           'printsrcinfo' 'repackage' 'rmdeps' 'sign' 'skipchecksums' 'skipinteg'
           'skippgpcheck' 'source' 'syncdeps' 'verifysource' 'version')
 
-# Pacman Options
+# Pars Options
 OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
@@ -979,7 +979,7 @@ unset OPT_SHORT OPT_LONG OPTRET
 
 while true; do
 	case "$1" in
-		# Pacman Options
+		# Pars Options
 		--asdeps)         ASDEPS=1;;
 		--needed)         NEEDED=1;;
 		--noconfirm)      PACMAN_OPTS+=("--noconfirm") ;;
@@ -1069,10 +1069,10 @@ done
 unset var
 PACKAGER=${PACKAGER:-"Unknown Packager"}
 
-# set pacman command if not already defined
-PACMAN=${PACMAN:-pacman}
+# set pars command if not already defined
+PARS=${PARS:-pars}
 # save full path to command as PATH may change when sourcing /etc/profile
-PACMAN_PATH=$(type -P $PACMAN)
+PACMAN_PATH=$(type -P $PARS)
 
 # check if messages are to be printed using color
 if [[ -t 2 && $USE_COLOR != "n" ]] && check_buildenv "color" "y"; then

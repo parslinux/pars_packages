@@ -1,11 +1,11 @@
-#compdef pacman pacman.static=pacman pacman-conf pacman-key makepkg
+#compdef pars pars.static=pars pars-conf pars-key makepkg
 
 # copy this file to /usr/share/zsh/site-functions/_pacman
 
 typeset -A opt_args
 setopt extendedglob
 
-# options for passing to _arguments: main pacman commands
+# options for passing to _arguments: main pars commands
 _pacman_opts_commands=(
 	{-D,--database}'[Modify database]'
 	{-F,--files}'[Query the files database]'
@@ -30,7 +30,7 @@ _pacman_opts_common=(
 	'--config[An alternate configuration file]:config file:_files'
 	'--confirm[Always ask for confirmation]'
 	'--debug[Display debug messages]'
-	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pacman.d/gnupg)]: :_files -/'
+	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pars.d/gnupg)]: :_files -/'
 	'--hookdir[Set an alternate hook location]: :_files -/'
 	'--logfile[An alternate log file]:config file:_files'
 	'--noconfirm[Do not ask for confirmation]'
@@ -312,7 +312,7 @@ _pacman_completions_all_packages() {
 		typeset -U packages
 		${seq} _wanted packages expl "packages" compadd ${sep[@]} - "${(@)packages}"
 
-		repositories=($(pacman-conf --repo-list))
+		repositories=($(pars-conf --repo-list))
 		typeset -U repositories
 		_wanted repo_packages expl "repository/package" compadd -S "/" $repositories
 	fi
@@ -330,8 +330,8 @@ _pacman_completions_installed_groups() {
 # provides completions for installed packages
 _pacman_completions_installed_packages() {
 	local -a cmd packages packages_long
-	packages_long=(@localstatedir@/lib/pacman/local/*(/))
-	packages=( ${${packages_long#@localstatedir@/lib/pacman/local/}%-*-*} )
+	packages_long=(@localstatedir@/lib/pars/local/*(/))
+	packages=( ${${packages_long#@localstatedir@/lib/pars/local/}%-*-*} )
 	compadd "$@" -a packages
 }
 
@@ -344,18 +344,18 @@ _pacman_all_packages() {
 # provides completions for repository names
 _pacman_completions_repositories() {
 	local -a cmd repositories
-	repositories=($(pacman-conf --repo-list))
+	repositories=($(pars-conf --repo-list))
 	# Uniq the array
 	typeset -U repositories
 	compadd "$@" -a repositories
 }
 
-# builds command for invoking pacman in a _call_program command - extracts
+# builds command for invoking pars in a _call_program command - extracts
 # relevant options already specified (config file, etc)
 # $cmd must be declared by calling function
 _pacman_get_command() {
 	# this is mostly nicked from _perforce
-	cmd=( "pacman" "2>/dev/null")
+	cmd=( "pars" "2>/dev/null")
 	integer i
 	for (( i = 2; i < CURRENT - 1; i++ )); do
 		if [[ ${words[i]} = "--config" || ${words[i]} = "--root" ]]; then
@@ -531,7 +531,7 @@ _pacman_conf_repo_directives=(
 _pacman_conf_completions_repositories() {
 	local -a repositories
 	# If the user specified an alternate config, use those repos
-	repositories=($(pacman-conf ${(kv)opt_args[(I)-c|--config]} --repo-list ))
+	repositories=($(pars-conf ${(kv)opt_args[(I)-c|--config]} --repo-list ))
 	typeset -U repositories
 	compadd "$@" -a repositories
 }
@@ -572,7 +572,7 @@ _pacman_conf() {
 		"$_pacman_conf_commands[@]" \
 		"$_pacman_conf_options_common[@]" \
 		"$_pacman_conf_options[@]" \
-		'*:pacman directive:_pacman_conf_directive'
+		'*:pars directive:_pacman_conf_directive'
 
 	case $state in
 		repo_list)
@@ -594,7 +594,7 @@ _pacman_key_shortopts=(
 	'-f[List fingerprint for specified or all keyids]:*: :_pacman_key_list'
 	'-l[List the specified or all keys]:*: :_pacman_key_list'
 	'-r[Fetch the specified keyids]:*: :_pacman_key_list'
-	'-u[Update the trustdb of pacman]'
+	'-u[Update the trustdb of pars]'
 	'-v[Verify the file specified by the signature]: :_files -g "*.sig"'
 	'-V[Show program version]'
 )
@@ -607,7 +607,7 @@ _pacman_key_longopts=(
 	'--finger[List fingerprint for specified or all keyids]:*: :_pacman_key_list'
 	'--list-keys[List the specified or all keys]:*: :_pacman_key_list'
 	'--recv-keys[Fetch the specified keyids]:*: :_pacman_key_list'
-	'--updatedb[Update the trustdb of pacman]'
+	'--updatedb[Update the trustdb of pars]'
 	'--verify[Verify the file specified by the signature]: :_files -g "*.sig"'
 	'--version[Show program version]'
 	'--edit-key[Present a menu for key management task on keyids]:*: :_pacman_key_list'
@@ -621,8 +621,8 @@ _pacman_key_longopts=(
 )
 
 _pacman_key_options=(
-	'--config[Use an alternate config file (instead of @sysconfdir@/pacman.conf)]: :_files'
-	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pacman.d/gnupg)]: :_files -/'
+	'--config[Use an alternate config file (instead of @sysconfdir@/pars.conf)]: :_files'
+	'--gpgdir[Set an alternate directory for GnuPG (instead of @sysconfdir@/pars.d/gnupg)]: :_files -/'
 	'--keyserver[Specify a keyserver to use if necessary]'
 )
 
@@ -641,7 +641,7 @@ _pacman_key() {
 			;;
 		*)
 			i=$#
-			while [[ $words[$i] != -* ]] && [[ $words[$i] != "pacman-key" ]];do
+			while [[ $words[$i] != -* ]] && [[ $words[$i] != "pars-key" ]];do
 				i=$(($i-1))
 			done
 			case $i in
@@ -666,7 +666,7 @@ _pacman_key() {
 
 _pacman_key_list() {
 	local keylist keys
-	keylist=$(pacman-key --list-keys 2>/dev/null | awk '
+	keylist=$(pars-key --list-keys 2>/dev/null | awk '
 		$1 == "pub" {
 			# key id
 			split($2, a, "/"); print a[2]
@@ -686,7 +686,7 @@ _pacman_key_list() {
 }
 
 _makepkg_shortopts=(
-	'-s[Install missing dependencies with pacman]'
+	'-s[Install missing dependencies with pars]'
 	'-i[Install package after successful build]'
 	'-A[Ignore incomplete arch field in PKGBUILD]'
 	'-c[Clean up work files after build]'
@@ -726,7 +726,7 @@ _makepkg_longopts=(
 	'--nobuild[Download and extract files only]'
 	'--rmdeps[Remove installed dependencies after a successful build]'
 	'--repackage[Repackage contents of the package without rebuilding]'
-	'--syncdeps[Install missing dependencies with pacman]'
+	'--syncdeps[Install missing dependencies with pars]'
 	'--source[Generate a source-only tarball without downloading sources]'
 	'--version[Show version information and exit]'
 	'--allsource[Generate a source-only tarball including downloaded source]'
@@ -794,13 +794,13 @@ _pacman_comp() {
 		makepkg)
 			_makepkg "$@"
 			;;
-		pacman-conf)
+		pars-conf)
 			_pacman_conf "$@"
 			;;
-		pacman-key)
+		pars-key)
 			_pacman_key "$@"
 			;;
-		pacman)
+		pars)
 			_pacman_zsh_comp "$@"
 			;;
 		*)

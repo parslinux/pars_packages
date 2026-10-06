@@ -1,0 +1,61 @@
+#
+# /etc/pars.conf
+# Pars Paket Yöneticisi Yapılandırma Dosyası
+# Felsefe: Hızlı, Güvenli, Asla Yolda Bırakmayan.
+#
+
+[options]
+# ==========================================================
+# PARS ALTIN KURALI (Temel Sistem Koruması)
+# Bu paketler YALNIZCA pars-stable ve pars-security depolarından
+# güncellenebilir. Testing veya Unstable açık olsa bile bu paketler
+# sistemin temelini sarsamaz.
+# ==========================================================
+HoldPkg      = pars glibc systemd linux linux-firmware gcc-runtime
+
+# Disk alanını ve bağımlılıkları kontrol et
+CheckSpace
+Architecture = auto
+
+# İmza ve Güvenlik Politikaları
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+# ==========================================================
+# PARS DAĞITIM DEPOLARI
+# Depolar yukarıdan aşağıya öncelik sırasına göre okunur.
+# ==========================================================
+
+# [pars-stable] - "Yolda Bırakmayan" Temel.
+# Sadece tam testten geçmiş, kararlı paketler.
+[pars-stable]
+Include = /etc/pars.d/mirrorlist
+
+# [pars-security] - Acil Müdahale.
+# Kritik güvenlik yamaları için en yüksek öncelikli kanal.
+[pars-security]
+Include = /etc/pars.d/mirrorlist
+
+# [pars-backports] - Kararlı Sistemde Yeni Uygulamalar.
+# Temel kütüphanelere dokunmadan yeni yazılımlar sunar.
+# (İsteğe bağlı, varsayılan kapalı)
+#[pars-backports]
+#Include = /etc/pars.d/mirrorlist
+
+# ==========================================================
+# DENEYSEL DEPOLAR (Geliştiriciler ve Test Gönüllüleri İçin)
+# Bu depoları açmak "Yolda Bırakmama" garantisini geçici olarak
+# devre dışı bırakabilir. Yalnızca bilinçli kullanıcılar için.
+# ==========================================================
+
+# [pars-candidate] - Yayın Adayı (Release Candidate)
+#[pars-candidate]
+#Include = /etc/pars.d/mirrorlist
+
+# [pars-testing] - Otomatik Testlerden Geçmiş Donanım Bekleyenler
+#[pars-testing]
+#Include = /etc/pars.d/mirrorlist
+
+# [pars-unstable] - Geliştirme Kanalı (Bleeding Edge)
+#[pars-unstable]
+#Include = /etc/pars.d/mirrorlist

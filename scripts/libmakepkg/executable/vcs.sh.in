@@ -2,7 +2,7 @@
 #
 #   vcs.sh - Confirm presence of binaries for VCS operations
 #
-#   Copyright (c) 2014-2025 Pacman Development Team <pacman-dev@lists.archlinux.org>
+#   Copyright (c) 2014-2025 Pars Development Team <pars-dev@lists.archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ executable_vcs() {
 	fi
 
 	if [[ -z $PACMAN_PATH ]]; then
-		warning "$(gettext "Cannot find the %s binary needed to check VCS source requirements.")" "$PACMAN"
+		warning "$(gettext "Cannot find the %s binary needed to check VCS source requirements.")" "$PARS"
 		return $ret
 	fi
 

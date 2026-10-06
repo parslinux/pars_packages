@@ -28,7 +28,7 @@ _arch_incomp() {
 }
 
 _pacman_keyids() {
-  \pacman-key --list-keys 2>/dev/null | awk '
+  \pars-key --list-keys 2>/dev/null | awk '
     $1 == "pub" {
       # key id
       split($2, a, "/"); print a[2]
@@ -60,7 +60,7 @@ _pacman_key() {
   # options for which we want file completion
   wantfiles='-@(c|-config|g|-gpgdir)'
 
-  if [[ $prev = 'pacman-key' || ( $cur = -* && $prev != $wantfiles ) ]]; then
+  if [[ $prev = 'pars-key' || ( $cur = -* && $prev != $wantfiles ) ]]; then
     _arch_ptr2comp opts
   elif [[ $prev = @(-k|--keyserver) ]]; then
     return
@@ -92,15 +92,15 @@ _makepkg() {
 _pacman_pkg() {
   _arch_compgen "$(
     if [[ $2 ]]; then
-      \pacman -$1 2>/dev/null | \cut -d' ' -f1 | \sort -u
+      \pars -$1 2>/dev/null | \cut -d' ' -f1 | \sort -u
     else
-      \pacman -$1 2>/dev/null
+      \pars -$1 2>/dev/null
     fi
   )"
 }
 
 _pacman_repo_list() {
-  _arch_compgen "$(pacman-conf --repo-list)"
+  _arch_compgen "$(pars-conf --repo-list)"
 }
 
 _pacman() {
@@ -160,8 +160,8 @@ _pacman_file() {
   compopt -o filenames; _filedir 'pkg.tar*'
 }
 
-complete -F _pacman pacman
+complete -F _pacman pars
 complete -F _makepkg makepkg
-complete -F _pacman_key -o default pacman-key
+complete -F _pacman_key -o default pars-key
 
 # ex:et ts=2 sw=2 ft=sh

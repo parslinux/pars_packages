@@ -1,9 +1,9 @@
 i18n.gettext(
-  'pacman-scripts',
+  'pars-scripts',
   args : [
     '--directory=@0@'.format(meson.current_source_dir()),
-    '--msgid-bugs-address=https://gitlab.archlinux.org/pacman/pacman/-/issues',
-    '--copyright-holder="Pacman Development Team <pacman-dev@lists.archlinux.org>"',
+    '--msgid-bugs-address=https://gitlab.archlinux.org/pars/pars/-/issues',
+    '--copyright-holder="Pars Development Team <pars-dev@lists.archlinux.org>"',
     '--language', 'shell',
 
     '--keyword=_',

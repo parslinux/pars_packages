@@ -1,4 +1,4 @@
-project('pacman',
+project('pars',
         'c',
         version : '7.1.0',
         license : 'GPLv2+',
@@ -39,7 +39,7 @@ if BASH.found()
   have_bash = bash_version.version_compare('>= 4.4.0')
 endif
 if not have_bash
-  error('bash >= 4.4.0 is required for pacman scripts.')
+  error('bash >= 4.4.0 is required for pars scripts.')
 endif
 
 bashcompletion = dependency('bash-completion', required : false)
@@ -69,12 +69,12 @@ conf.set_quoted('SCRIPTLET_SHELL', get_option('scriptlet-shell'))
 conf.set_quoted('LDCONFIG', LDCONFIG)
 conf.set_quoted('LIB_VERSION', libalpm_version)
 conf.set_quoted('SYSHOOKDIR', join_paths(DATAROOTDIR, 'libalpm/hooks/'))
-conf.set_quoted('CONFFILE', join_paths(SYSCONFDIR, 'pacman.conf'))
-conf.set_quoted('DBPATH', join_paths(LOCALSTATEDIR, 'lib/pacman/'))
-conf.set_quoted('GPGDIR', join_paths(SYSCONFDIR, 'pacman.d/gnupg/'))
-conf.set_quoted('LOGFILE', join_paths(LOCALSTATEDIR, 'log/pacman.log'))
-conf.set_quoted('CACHEDIR', join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/'))
-conf.set_quoted('HOOKDIR', join_paths(SYSCONFDIR, 'pacman.d/hooks/'))
+conf.set_quoted('CONFFILE', join_paths(SYSCONFDIR, 'pars.conf'))
+conf.set_quoted('DBPATH', join_paths(LOCALSTATEDIR, 'lib/pars/'))
+conf.set_quoted('GPGDIR', join_paths(SYSCONFDIR, 'pars.d/gnupg/'))
+conf.set_quoted('LOGFILE', join_paths(LOCALSTATEDIR, 'log/pars.log'))
+conf.set_quoted('CACHEDIR', join_paths(LOCALSTATEDIR, 'cache/pars/pkg/'))
+conf.set_quoted('HOOKDIR', join_paths(SYSCONFDIR, 'pars.d/hooks/'))
 conf.set_quoted('ROOTDIR', ROOTDIR)
 
 libintl = dependency('', required: false)
@@ -303,7 +303,7 @@ substs.set('BSDTAR_NO_READ_SPARSE', bsdtar_no_read_sparse)
 
 subdir('lib/libalpm')
 subdir('src/common')
-subdir('src/pacman')
+subdir('src/pars')
 subdir('src/util')
 subdir('scripts')
 
@@ -311,7 +311,7 @@ subdir('scripts')
 if get_option('i18n')
   i18n = import('i18n')
   subdir('lib/libalpm/po')
-  subdir('src/pacman/po')
+  subdir('src/pars/po')
   subdir('scripts/po')
 endif
 
@@ -361,12 +361,12 @@ pkgconfig.generate(
   name : 'libalpm',
   description : 'Arch Linux package management library',
   version : libalpm_version,
-  url : 'http://archlinux.org/pacman/',
+  url : 'http://archlinux.org/pars/',
   extra_cflags: [ '-D_FILE_OFFSET_BITS=64' ],
 )
 
 pacman_bin = executable(
-  'pacman',
+  'pars',
   pacman_sources,
   include_directories : includes,
   link_with : [libalpm, libcommon],
@@ -375,7 +375,7 @@ pacman_bin = executable(
 )
 
 executable(
-  'pacman-conf',
+  'pars-conf',
   pacman_conf_sources,
   include_directories : includes,
   link_with : [libalpm, libcommon],
@@ -436,8 +436,8 @@ configure_file(
 install_emptydir(join_paths(SYSCONFDIR, 'makepkg.d/'))
 
 configure_file(
-  input : 'etc/pacman.conf.in',
-  output : 'pacman.conf',
+  input : 'etc/pars.conf.in',
+  output : 'pars.conf',
   configuration : substs,
   install_dir : SYSCONFDIR)
 
@@ -446,11 +446,11 @@ install_data(
   'proto/PKGBUILD-vcs.proto',
   'proto/PKGBUILD.proto',
   'proto/proto.install',
-  install_dir : join_paths(DATAROOTDIR, 'pacman'))
+  install_dir : join_paths(DATAROOTDIR, 'pars'))
 
 foreach path : [
-	join_paths(LOCALSTATEDIR, 'lib/pacman/'),
-	join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/'),
+	join_paths(LOCALSTATEDIR, 'lib/pars/'),
+	join_paths(LOCALSTATEDIR, 'cache/pars/pkg/'),
 	join_paths(DATAROOTDIR, 'makepkg-template/'),
 	join_paths(DATAROOTDIR, 'libalpm/hooks/'),
 	]
@@ -463,17 +463,17 @@ TEST_ENV.set('PMTEST_LIBMAKEPKG_DIR', join_paths(meson.project_build_root(), 'sc
 TEST_ENV.set('PMTEST_UTIL_DIR', meson.project_build_root() + '/')
 TEST_ENV.set('PMTEST_SCRIPT_DIR', join_paths(meson.project_build_root(), 'scripts/'))
 
-subdir('test/pacman')
+subdir('test/pars')
 subdir('test/scripts')
 subdir('test/util')
 
 summary({
   'prefix': PREFIX,
   'sysconfdir': SYSCONFDIR,
-  '    conf file': join_paths(SYSCONFDIR, 'pacman.conf'),
+  '    conf file': join_paths(SYSCONFDIR, 'pars.conf'),
   'localstatedir': LOCALSTATEDIR,
-  '    database dir': join_paths(LOCALSTATEDIR, 'lib/pacman/'),
-  '    cache dir': join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/'),
+  '    database dir': join_paths(LOCALSTATEDIR, 'lib/pars/'),
+  '    cache dir': join_paths(LOCALSTATEDIR, 'cache/pars/pkg/'),
   'keyringdir': KEYRINGDIR,
   'compiler': '@0@ @1@\n'.format(cc.get_id(), cc.version()),
   'Architecture': carch,
@@ -481,7 +481,7 @@ summary({
   'File inode command': inodecmd,
   'File seccomp command': filecmd,
   'libalpm version': libalpm_version,
-  'pacman version': PACKAGE_VERSION,
+  'pars version': PACKAGE_VERSION,
 }, section: 'Build information')
 
 summary({

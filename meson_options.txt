@@ -26,7 +26,7 @@ option('buildscript', type : 'string', value : 'PKGBUILD',
 option('datarootdir', type : 'string', value : 'share',
        description : 'FIXME')
 
-option('keyringdir', type : 'string', value: 'pacman/keyrings',
+option('keyringdir', type : 'string', value: 'pars/keyrings',
 	description : 'Where to look for keyring files under datarootdir')
 
 option('makepkg-template-dir', type : 'string', value : '/usr/share/makepkg-template',
@@ -52,7 +52,7 @@ option('gpgme', type : 'feature', value : 'auto',
        description : 'use GPGME for PGP signature verification')
 
 option('i18n', type : 'boolean', value : true,
-       description : 'enable localization of pacman, libalpm and scripts')
+       description : 'enable localization of pars, libalpm and scripts')
 
 # tools
 option('file-seccomp', type: 'feature', value: 'auto',

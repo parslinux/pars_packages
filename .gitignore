@@ -1,3 +1,16 @@
+# Derleme ve geçici klasörler
+build/
+pkg/
+src/
+/tmp/
+
+# Oluşturulan paketler ve ISO'lar
+*.pkg.tar.*
+*.iso
+*.tar.gz
+
+# Editör ve IDE dosyaları
+.vscode/
+.idea/
+*.swp
 *~
-*.o
-pacman-*.tar.gz

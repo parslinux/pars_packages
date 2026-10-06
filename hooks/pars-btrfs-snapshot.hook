@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Pars: Guncelleme oncesi Btrfs snapshot aliniyor...
+When = PreTransaction
+Exec = /usr/share/pars/hooks/pars-snapshot.sh
+AbortOnFail

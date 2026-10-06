@@ -1,7 +1,7 @@
 wrapped_scripts = [
   'makepkg.sh.in',
-  'pacman-db-upgrade.sh.in',
-  'pacman-key.sh.in',
+  'pars-db-upgrade.sh.in',
+  'pars-key.sh.in',
   'repo-add.sh.in'
 ]
 
@@ -72,13 +72,13 @@ custom_target(
   'bash_completion',
   command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@' ],
   input : 'completion/bash_completion.in',
-  output : 'pacman',
+  output : 'pars',
   install : true,
   install_dir : BASHCOMPDIR)
 
-foreach symlink : ['pacman-key', 'makepkg']
+foreach symlink : ['pars-key', 'makepkg']
   meson.add_install_script(MESON_MAKE_SYMLINK,
-                           'pacman',
+                           'pars',
                            join_paths(BASHCOMPDIR, symlink))
 endforeach
 

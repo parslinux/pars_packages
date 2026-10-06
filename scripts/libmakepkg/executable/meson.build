@@ -8,7 +8,7 @@ sources = [
   'debugedit.sh.in',
   'gpg.sh.in',
   'gzip.sh.in',
-  'pacman.sh.in',
+  'pars.sh.in',
   'sccache.sh.in',
   'strip.sh.in',
   'sudo.sh.in',

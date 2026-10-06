@@ -2,7 +2,7 @@
 #
 #   source_date_epoch.sh - Check that reproducible builds timestamp is valid
 #
-#   Copyright (c) 2018-2025 Pacman Development Team <pacman-dev@lists.archlinux.org>
+#   Copyright (c) 2018-2025 Pars Development Team <pars-dev@lists.archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ lint_config_functions+=('lint_packager')
 
 
 lint_packager() {
-	# pacman relies on this format to extract an email address from PACKAGER for WKD key lookup
+	# pars relies on this format to extract an email address from PACKAGER for WKD key lookup
 	local match='^([^<>]+ )?<[^<>]*>$'
 	if ! [[ $PACKAGER == "Unknown Packager" || $PACKAGER =~ $match ]]; then
 		warning "$(gettext "PACKAGER should have the format 'Example Name <email@address.invalid>'")"

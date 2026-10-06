@@ -1,18 +1,18 @@
 manpages = [
   { 'name': 'alpm-hooks.5' },
-  { 'name': 'pacman.8' },
+  { 'name': 'pars.8' },
   { 'name': 'makepkg.8' },
   { 'name': 'makepkg-template.1' },
   { 'name': 'repo-add.8' },
   { 'name': 'vercmp.8' },
   { 'name': 'testpkg.8' },
-  { 'name': 'pacman-key.8' },
-  { 'name': 'pacman-db-upgrade.8' },
+  { 'name': 'pars-key.8' },
+  { 'name': 'pars-db-upgrade.8' },
   { 'name': 'PKGBUILD.5', 'extra_depends' : [ 'PKGBUILD-example.txt' ] },
   { 'name': 'makepkg.conf.5' },
-  { 'name': 'pacman.conf.5' },
+  { 'name': 'pars.conf.5' },
   { 'name': 'BUILDINFO.5' },
-  { 'name': 'pacman-conf.8' },
+  { 'name': 'pars-conf.8' },
 ]
 
 sitepages = [
@@ -110,7 +110,7 @@ meson.add_install_script(MESON_MAKE_SYMLINK,
 
 meson.add_install_script(MESON_MAKE_SYMLINK,
                          'alpm-hooks.5',
-                         join_paths(MANDIR, 'man5/pacman-hooks.5'))
+                         join_paths(MANDIR, 'man5/pars-hooks.5'))
 
 doxygen = find_program('doxygen', required : get_option('doxygen'))
 if doxygen.found() and not get_option('doxygen').disabled()
